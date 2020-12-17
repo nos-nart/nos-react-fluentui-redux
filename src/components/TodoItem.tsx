@@ -1,12 +1,12 @@
 import React from 'react'
-import { Store } from '../redux/store/index'
+import { IStore } from '../store'
 import { connect } from 'react-redux'
 import { Stack, Checkbox, IconButton, TextField, DefaultButton } from '@fluentui/react';
-import { todoActions } from '../redux/actions/todo';
+import { actions } from '../actions';
 
 interface ITodoItemProps {
   id: string;
-  todo: Store['todo'];
+  todos: IStore['todos'];
   complete: (id: string) => void;
   remove: (id: string) => void;
   edit: (id: string, label: string | undefined) => void;
@@ -22,33 +22,11 @@ class TodoItem extends React.Component<ITodoItemProps, ITodoItemState> {
     super(props);
     this.state = { editing: false, editLabel: '' };
   }
-
-  private onEdit = () => {
-    const { id, todo } = this.props;
-    const { label } = todo[id];
-
-    this.setState({
-      editing: true,
-      editLabel: this.state.editLabel || label
-    });
-  };
-
-  private onDoneEdit = () => {
-    this.props.edit(this.props.id, this.state.editLabel);
-    this.setState({
-      editing: false,
-      editLabel: ''
-    });
-  };
-
-  private onChange = (evt: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue: string | undefined) => {
-    this.setState({ editLabel: newValue });
-  };
   
   render() {
-    const { id, todo, complete, remove } = this.props;
+    const { id, todos, complete, remove } = this.props;
 
-    const item = todo[id];
+    const item = todos[id];
 
     return (
       <Stack horizontal verticalAlign="center" horizontalAlign="space-between">
@@ -75,14 +53,36 @@ class TodoItem extends React.Component<ITodoItemProps, ITodoItemState> {
       </Stack>
     );
   }
+
+  private onEdit = () => {
+    const { id, todos } = this.props;
+    const { label } = todos[id];
+
+    this.setState({
+      editing: true,
+      editLabel: this.state.editLabel || label
+    });
+  };
+
+  private onDoneEdit = () => {
+    this.props.edit(this.props.id, this.state.editLabel);
+    this.setState({
+      editing: false,
+      editLabel: ''
+    });
+  };
+
+  private onChange = (evt: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue: string | undefined) => {
+    this.setState({ editLabel: newValue });
+  };
 }
 
 const ConnectedTodoListItem = connect(
-  (state: Store) => ({ todo: state.todo }),
+  (state: IStore) => ({ todos: state.todos }),
   dispatch => ({
-    complete: (id: any) => dispatch(todoActions.complete(id)),
-    remove: (id: any) => dispatch(todoActions.remove(id)),
-    edit: (id: any, label: any) => dispatch(todoActions.edit(id, label))
+    complete: (id: any) => dispatch(actions.complete(id)),
+    remove: (id: any) => dispatch(actions.remove(id)),
+    edit: (id: any, label: any) => dispatch(actions.edit(id, label))
   })
 )(TodoItem);
 

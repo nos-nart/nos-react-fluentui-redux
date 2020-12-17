@@ -1,22 +1,22 @@
 import React from 'react'
 import { Stack, IStackTokens } from '@fluentui/react'
 import { connect } from 'react-redux'
-import { Store } from '../redux/store/index'
+import { IStore } from '../store'
 import { TodoItem } from './TodoItem'
 
 interface ITodoListProps {
-  todo: Store['todo'];
-  filter: Store['filter'];
+  todos: IStore['todos'];
+  filter: IStore['filter'];
 }
 
 const todoListStackTokens: IStackTokens = { childrenGap: 10 }
 
 const TodoList = (props: ITodoListProps) => {
-  const { filter, todo } = props;
-  const filteredTodos = Object.keys(todo).filter(id => {
+  const { filter, todos } = props;
+  const filteredTodos = Object.keys(todos).filter(id => {
     return filter === 'all' ||
-      (filter === 'completed' && todo[id].completed) ||
-      (filter === 'active' && !todo[id].completed);
+      (filter === 'completed' && todos[id].completed) ||
+      (filter === 'active' && !todos[id].completed);
   });
 
   return (
@@ -28,5 +28,5 @@ const TodoList = (props: ITodoListProps) => {
   )
 }
 
-const ConnectedTodoList = connect((state: Store) => ({ ...state }))(TodoList);
+const ConnectedTodoList = connect((state: IStore) => ({ ...state }))(TodoList);
 export { ConnectedTodoList as TodoList };

@@ -1,11 +1,11 @@
-import { Store } from '../store';
+import { IStore } from '../store';
 import { combineReducers } from 'redux';
 import { createReducer } from '@reduxjs/toolkit';
 
-export const todosReducer = createReducer<Store['todo']>(
+export const todosReducer = createReducer<IStore['todos']>(
   {},
   {
-    addTodo(state, action) {
+    add(state, action) {
       state[action.id] = {
         label: action.label,
         completed: false,
@@ -30,7 +30,7 @@ export const todosReducer = createReducer<Store['todo']>(
   }
 )
 
-export const filterReducer = createReducer<Store['filter']>('all', {
+export const filterReducer = createReducer<IStore['filter']>('all', {
   setFilter(state, action) {
     return action.filter;
   }
@@ -40,3 +40,4 @@ export const reducer = combineReducers({
   todos: todosReducer,
   filter: filterReducer
 });
+

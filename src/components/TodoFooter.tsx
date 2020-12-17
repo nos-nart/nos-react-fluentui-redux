@@ -1,18 +1,18 @@
 import React from 'react';
-import { todoActions } from '../redux/actions/todo';
+import { actions } from '../actions';
 import { connect } from 'react-redux';
-import { Store } from '../redux/store';
+import { IStore } from '../store';
 import { Stack, DefaultButton, Text } from '@fluentui/react';
 
 interface TodoFooterProps {
-  todo: Store['todo'];
+  todos: IStore['todos'];
   clear: () => void;
 }
 
 const TodoFooter = (props: TodoFooterProps) => {
-  const { todo, clear } = props;
+  const { todos, clear } = props;
 
-  const itemCount = Object.keys(todo).filter(id => !todo[id].completed).length;
+  const itemCount = Object.keys(todos).filter(id => !todos[id].completed).length;
 
   return (
     <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
@@ -23,11 +23,11 @@ const TodoFooter = (props: TodoFooterProps) => {
 };
 
 const ConnectedTodoFooter = connect(
-  (state: Store) => ({
-    todo: state.todo
+  (state: IStore) => ({
+    todos: state.todos
   }),
   dispatch => ({
-    clear: () => dispatch(todoActions.clear())
+    clear: () => dispatch(actions.clear())
   })
 )(TodoFooter);
 

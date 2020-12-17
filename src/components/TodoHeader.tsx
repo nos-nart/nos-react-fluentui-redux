@@ -1,8 +1,8 @@
 import React from 'react'
-import { FilterTypes } from '../redux/store';
+import { FilterTypes } from '../store';
 import { Stack, Text, TextField, PrimaryButton, Pivot, PivotItem, IStackTokens } from '@fluentui/react';
 import { connect } from 'react-redux';
-import { todoActions } from '../redux/actions/todo';
+import { actions } from '../actions';
 
 interface ITodoHeaderProps {
   add: (label: string) => void;
@@ -20,19 +20,6 @@ class TodoHeader extends React.Component<ITodoHeaderProps, ITodoHeaderState> {
     super(props);
     this.state = { labelInput: '' };
   }
-
-  private onAdd = () => {
-    this.props.add(this.state.labelInput);
-    this.setState({ labelInput: '' });
-  };
-
-  private onChange = (evt: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
-    this.setState({ labelInput: newValue! });
-  };
-
-  private onFilter = (item?: PivotItem) => {
-    this.props.setFilter(item?.props.headerText as FilterTypes);
-  };
 
   render() {
     return (
@@ -67,13 +54,26 @@ class TodoHeader extends React.Component<ITodoHeaderProps, ITodoHeaderState> {
       </Stack>
     )
   }
+
+  private onAdd = () => {
+    this.props.add(this.state.labelInput);
+    this.setState({ labelInput: '' });
+  };
+
+  private onChange = (evt: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
+    this.setState({ labelInput: newValue! });
+  };
+
+  private onFilter = (item?: PivotItem) => {
+    this.props.setFilter(item?.props.headerText as FilterTypes);
+  };
 }
 
 const ConnectedTodoHeader = connect(
   state => ({}),
   dispatch => ({
-    add: (label: string) => dispatch(todoActions.add(label)),
-    setFilter: (filter: string) => dispatch(todoActions.setFilter(filter))
+    add: (label: string) => dispatch(actions.add(label)),
+    setFilter: (filter: string) => dispatch(actions.setFilter(filter))
   })
 )(TodoHeader);
 

@@ -3,8 +3,9 @@ import { Stack, IStackTokens } from '@fluentui/react';
 import { TodoHeader } from './TodoHeader';
 import { TodoList } from './TodoList';
 import { TodoFooter } from './TodoFooter';
+// import { DefaultPalette } from '@fluentui/react/lib/Styling';
 
-const todoStackTokens: IStackTokens = { childrenGap: 10 };
+const todoStackTokens: IStackTokens = { childrenGap: 10 }
 
 export const TodoApp = () => {
   return (
