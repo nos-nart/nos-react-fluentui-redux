@@ -1,0 +1,8 @@
+export const TYPES = {
+  ADD: 'ADD',
+  REMOVE: 'REMOVE',
+  COMPLETE: 'COMPLETE',
+  CLEAR: 'CLEAR',
+  EDIT: 'EDIT',
+  SET_FILTER: 'SET_FILTER'
+}
